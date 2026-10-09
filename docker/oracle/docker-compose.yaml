@@ -8,9 +8,14 @@ services:
       ORACLE_PWD: oracle
     volumes:
       - oracle-data:/opt/oracle/oradata
+    healthcheck:
+      test: [CMD-SHELL, '/opt/oracle/checkDBStatus.sh || exit 1']
+      interval: 10s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
     network_mode: bridge
     restart: no
 
 volumes:
   oracle-data:
-    external: true
